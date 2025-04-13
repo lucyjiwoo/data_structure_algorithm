@@ -1,6 +1,8 @@
 """
     This will contain data structure of Single Linked List and basic functions for SLL: 
+    The node stores the next node and the element. 
     """
+
 class SLLNode:
     def __init__(self, data):
         self.data = data

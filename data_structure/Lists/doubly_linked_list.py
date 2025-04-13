@@ -1,6 +1,7 @@
 """
-    This will contain data structure of Doubly Linked List and basic functions for SLL: 
-    """
+    This will contain data structure of Doubly Linked List and basic functions for DLL: 
+    The node stores the previous node, the next node, and the element.
+"""
 
 class DoublyNode:
     def __init__(self, data):
@@ -9,13 +10,13 @@ class DoublyNode:
         self.data = data
 
     def __str__(self):
-        return self.data
+        return str(self.data)
     
 class DoublyLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
-        self.size = None
+        self.size = 0
 
     def __str__(self):
         if self.size == 0:
@@ -27,6 +28,7 @@ class DoublyLinkedList:
             list_str += ", " + str(current.data)
         list_str += "]"
         return list_str
+    
     def __repr__(self):
         return str(self)
     def __sizeof__(self):
@@ -39,21 +41,30 @@ class DoublyLinkedList:
         for i in range(index):
             current = current.next
         return current.data
+    
     def is_empty(self):
         return self.size == 0
+    
     def insert_head(self, data):
-        new_node = DoublyNode(data)        # Create new node with data
-        self.head.prev = new_node
-        new_node.next = self.head       # New node to point to old head
-        self.head = new_node            # Update the head to new node
+        new_head = DoublyNode(data)        # Create new node with data
         if self.size == 0:
-            self.tail = new_node
+            self.head = new_head
+            self.tail = new_head
+        else:
+            self.head.prev = new_head
+            new_head.next = self.head       # New node to point to old head
+            self.head = new_head            # Update the head to new node
         self.size += 1                  # Update the size of the list
 
     def insert_tail(self, data):
         new_tail = DoublyNode(data)        #Create new tail node with data
-        self.tail.next = new_tail
-        self.tail = new_tail
+        if self.size ==0:
+            self.head = new_tail
+            self.tail = new_tail
+        else:
+            new_tail.prev = self.tail
+            self.tail.next = new_tail
+            self.tail = new_tail
         self.size += 1
 
     def remove_head(self):
@@ -63,24 +74,44 @@ class DoublyLinkedList:
             self.size = 0
         else:
             self.head = self.head.next      # Update head to point the next node
+            self.head.prev = None
             self.size -= 1
+
     def remove_tail(self):
         if self.size == 1:
             self.head = None
             self.tail = None
             self.size = 0
         else:
-            new_tail = self.head
-            while new_tail.next != self.tail:
-                new_tail = new_tail.next
-            new_tail.next = None
-            self.tail = new_tail
-            self.size -= 1
+            self.tail = self.tail.prev
+            self.tail.next = None
+            
 
 
 def main():
     test_list = DoublyLinkedList()
-    print("Testing single linked list implementation")
+
+    test_list.insert_head(1)
+    test_list.insert_head(3)
+    test_list.insert_head(5)
+    test_list.insert_tail(3)
+    test_list.insert_tail(5)
+    # print(test_list)
+    # current = test_list.head
+    # print("head =", current)
+    # op = input("prev or next")
+    # while op != "q":
+    #     if op == 'prev':
+    #         if current.prev != None:
+    #             current = current.prev
+    #         print(current)
+    #     else:
+    #         if current.next!= None:
+    #             current = current.next
+    #         print(current)
+    #     op = input("prev or next")
+
+    print("Testing doubly linked list implementation")
     option = input("""Please Enter Your Option
                    A: print all elements of the list in the head to tail order
                    B: insert at the head
